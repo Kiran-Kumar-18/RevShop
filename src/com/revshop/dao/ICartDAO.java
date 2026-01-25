@@ -8,6 +8,5 @@ public interface ICartDAO {
     void addToCart(int userId, int productId, int qty);
     int updateCartItem(int userId, int productId, int qty);
 
-
     void viewCart(int userId);
 }
