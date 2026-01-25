@@ -1,6 +1,16 @@
 package com.revshop.service;
 
+import com.revshop.model.User;
+
 public interface IUserService {
-    boolean register(String name,String email,String password);
-    int login(String email,String password);
+
+    void register(User user);
+
+    int login(String email, String password);
+
+    User viewProfile(int userId);
+
+    void updateProfile(User user);
+
+    void changePassword(int userId, String newPassword);
 }

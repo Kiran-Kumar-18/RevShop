@@ -1,14 +1,25 @@
 package com.revshop.controller;
 
 import java.util.Scanner;
+
+import com.revshop.model.User;
+import com.revshop.service.IUserService;
 import com.revshop.service.UserService;
 
 public class UserController {
 
-    private final UserService service=new UserService();
-    private final Scanner sc=new Scanner(System.in);
+    private final IUserService service;
+    private final Scanner sc;
 
+    // Scanner comes from Main (single Scanner rule)
+    public UserController(Scanner sc) {
+        this.sc = sc;
+        this.service = new UserService();
+    }
+
+    // ========== LOGIN ==========
     public int login() {
+
         System.out.print("Email: ");
         String email = sc.nextLine();
 
@@ -26,25 +37,25 @@ public class UserController {
         return userId;
     }
 
-
+    // ========== REGISTER ==========
     public void register() {
 
+        User user = new User();
+
         System.out.print("Name: ");
-        String name = sc.nextLine();
+        user.setName(sc.nextLine());
 
         System.out.print("Email: ");
-        String email = sc.nextLine();
+        user.setEmail(sc.nextLine());
 
         System.out.print("Password: ");
-        String password = sc.nextLine();
+        user.setPassword(sc.nextLine());
 
-        boolean success = service.register(name, email, password);
+        System.out.print("Phone: ");
+        user.setPhone(sc.nextLine());
 
-        if (success) {
-            System.out.println("Registered Successfully");
-        } else {
-            System.out.println("❌ Email already registered. Please login.");
-        }
+        service.register(user);
+
+        System.out.println("Registered successfully! Please login ✅");
     }
-
 }

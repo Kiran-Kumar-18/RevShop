@@ -2,18 +2,35 @@ package com.revshop.service;
 
 import com.revshop.dao.IUserDAO;
 import com.revshop.dao.UserDAO;
+import com.revshop.model.User;
 
-public class UserService {
+public class UserService implements IUserService {
 
-    private final IUserDAO userDAO = new UserDAO();
+    private IUserDAO userDAO = new UserDAO();
 
-    //  LOGIN METHOD (THIS WAS MISSING)
-    public int login(String email, String password) {
-        return userDAO.login(email, password);
+    @Override
+    public void register(User user) {
+        userDAO.register(user);
     }
 
-    // REGISTER METHOD (YOU ALREADY USE THIS)
-    public boolean register(String name, String email, String password) {
-        return userDAO.register(name, email, password);
+    @Override
+    public int login(String email, String password) {
+        User user = userDAO.login(email, password);
+        return user != null ? user.getUserId() : -1;
+    }
+
+    @Override
+    public User viewProfile(int userId) {
+        return userDAO.getUserById(userId);
+    }
+
+    @Override
+    public void updateProfile(User user) {
+        userDAO.updateUser(user);
+    }
+
+    @Override
+    public void changePassword(int userId, String newPassword) {
+        userDAO.changePassword(userId, newPassword);
     }
 }

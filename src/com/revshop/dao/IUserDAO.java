@@ -1,13 +1,16 @@
 package com.revshop.dao;
 
+import com.revshop.model.User;
+
 public interface IUserDAO {
 
+    void register(User user);
 
-    boolean emailExists(String email);
+    User login(String email, String password);
 
+    User getUserById(int userId);
 
-        int login(String email, String password);
-        boolean register(String name, String email, String password);
+    void updateUser(User user);
 
-
+    void changePassword(int userId, String newPassword);
 }

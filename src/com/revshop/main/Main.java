@@ -1,6 +1,7 @@
 package com.revshop.main;
 
 import java.util.Scanner;
+
 import com.revshop.controller.CartController;
 import com.revshop.controller.ProductController;
 import com.revshop.controller.UserController;
@@ -9,9 +10,11 @@ public class Main {
 
     public static void main(String[] args) {
 
+        // ONE Scanner for entire application
         Scanner sc = new Scanner(System.in);
 
-        UserController userController = new UserController();
+        // Pass Scanner to controllers that need input
+        UserController userController = new UserController(sc);
         ProductController productController = new ProductController();
         CartController cartController = new CartController();
 
@@ -19,35 +22,39 @@ public class Main {
 
         while (true) {
 
-            //  NOT LOGGED IN
+            // ================= NOT LOGGED IN =================
             if (userId == -1) {
 
-                System.out.println("\n1.Register");
-                System.out.println("2.Login");
-                System.out.println("3.Exit");
+                System.out.println("\n1. Register");
+                System.out.println("2. Login");
+                System.out.println("3. Exit");
+                System.out.print("Enter choice: ");
 
-                int choice = sc.nextInt();
-                sc.nextLine(); // clear buffer
+                int choice = Integer.parseInt(sc.nextLine());
 
                 switch (choice) {
                     case 1 -> userController.register();
                     case 2 -> userId = userController.login();
-                    case 3 -> System.exit(0);
-                    default -> System.out.println(" Invalid choice");
+                    case 3 -> {
+                        System.out.println("Thank you!");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Invalid choice");
                 }
             }
 
-            //  LOGGED IN
+            // ================= LOGGED IN =================
             else {
 
-                System.out.println("\n1.View Products");
-                System.out.println("2.Add To Cart");
-                System.out.println("3.Update Cart Item");
-                System.out.println("4.Remove Cart Item");
-                System.out.println("5.View Cart");
-                System.out.println("6.Logout");
+                System.out.println("\n1. View Products");
+                System.out.println("2. Add To Cart");
+                System.out.println("3. Update Cart Item");
+                System.out.println("4. Remove Cart Item");
+                System.out.println("5. View Cart");
+                System.out.println("6. Logout");
+                System.out.print("Enter choice: ");
 
-                int choice = sc.nextInt();
+                int choice = Integer.parseInt(sc.nextLine());
 
                 switch (choice) {
                     case 1 -> productController.showProducts();
@@ -57,9 +64,9 @@ public class Main {
                     case 5 -> cartController.viewCart(userId);
                     case 6 -> {
                         userId = -1;
-                        System.out.println("Logged out successfully ");
+                        System.out.println("Logged out successfully");
                     }
-                    default -> System.out.println(" Invalid choice");
+                    default -> System.out.println("Invalid choice");
                 }
             }
         }
