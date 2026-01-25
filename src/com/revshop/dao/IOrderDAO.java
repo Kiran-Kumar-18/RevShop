@@ -1,7 +1,9 @@
 package com.revshop.dao;
 
 import com.revshop.model.Order;
+import com.revshop.model.Notification;
 
 public interface IOrderDAO {
-    boolean createOrder(Order order);
+    boolean create_order(Order o);
+    boolean create_notification(Notification n);
 }
