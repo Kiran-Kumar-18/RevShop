@@ -19,7 +19,7 @@ public class CartController {
         int choice = sc.nextInt();
 
         if (choice <= 0 || choice > productIds.size()) {
-            System.out.println("❌ Invalid choice");
+            System.out.println(" Invalid choice");
             return;
         }
 
@@ -29,12 +29,12 @@ public class CartController {
         int qty = sc.nextInt();
 
         if (qty <= 0) {
-            System.out.println("❌ Quantity must be positive");
+            System.out.println(" Quantity must be positive");
             return;
         }
 
         service.addToCart(userId, productId, qty);
-        System.out.println("✅ Cart updated successfully");
+        System.out.println(" Cart updated successfully");
         viewCart(userId);
     }
 
