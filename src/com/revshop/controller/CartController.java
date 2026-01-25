@@ -87,7 +87,7 @@ public class CartController {
 
         viewCart(userId);
 
-        System.out.print("Product ID to remove: ");
+        System.out.print("Product ID to be remove: ");
         int pid = sc.nextInt();
 
         System.out.println(
@@ -98,6 +98,7 @@ public class CartController {
 
         viewCart(userId);
     }
+
 
     public void viewCart(int userId) {
         service.viewCart(userId);
