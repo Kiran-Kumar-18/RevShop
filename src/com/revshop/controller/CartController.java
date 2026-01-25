@@ -1,62 +1,103 @@
 package com.revshop.controller;
 
-import com.revshop.model.CartItem;
-import com.revshop.service.CartService;
-
 import java.util.List;
+import java.util.Scanner;
+import com.revshop.service.*;
 
 public class CartController {
 
-    private final CartService cartService;
+    private final ICartService service = new CartService();
+    private final ProductController productController = new ProductController();
+    private final Scanner sc = new Scanner(System.in);
+    public void addItem(int userId) {
 
-    public CartController() {
-        this.cartService = new CartService();
-    }
+        List<Integer> productIds = productController.showProductsWithNumbers();
 
-    // Add product to cart
-    public void addProduct(int userId, int productId, int quantity) {
+        if (productIds.isEmpty()) return;
 
-        if (quantity <= 0) {
-            System.out.println("Quantity must be greater than zero");
+        System.out.print("Choose Product Number: ");
+        int choice = sc.nextInt();
+
+        if (choice <= 0 || choice > productIds.size()) {
+            System.out.println("❌ Invalid choice");
             return;
         }
 
-        try {
-            cartService.addToCart(userId, productId, quantity);
-            System.out.println("Product added to cart successfully");
-        } catch (Exception e) {
-            System.out.println("Failed to add product to cart: " + e.getMessage());
-        }
-    }
+        int productId = productIds.get(choice - 1);
 
-    // Remove product from cart
-    public void removeProduct(int userId, int productId) {
+        System.out.print("Quantity: ");
+        int qty = sc.nextInt();
 
-        try {
-            cartService.removeFromCart(userId, productId);
-            System.out.println("Product removed from cart successfully");
-        } catch (Exception e) {
-            System.out.println("Failed to remove product from cart: " + e.getMessage());
-        }
-    }
-
-    // View cart items
-    public void showCart(int userId) {
-
-        List<CartItem> items = cartService.viewCart(userId);
-
-        if (items == null || items.isEmpty()) {
-            System.out.println("Cart is empty");
+        if (qty <= 0) {
+            System.out.println("❌ Quantity must be positive");
             return;
         }
 
-        System.out.println("------ CART ITEMS ------");
-        for (CartItem item : items) {
-            System.out.println(
-                    "Product ID: " + item.product_id +
-                            " | Quantity: " + item.quantity
-            );
+        service.addToCart(userId, productId, qty);
+        System.out.println("✅ Cart updated successfully");
+        viewCart(userId);
+    }
+
+
+
+    public void updateItem(int userId) {
+
+        // Always show cart first
+        viewCart(userId);
+
+        System.out.print("Enter Product ID to update (number only): ");
+
+        if (!sc.hasNextInt()) {
+            System.out.println("❌ Invalid input. Please enter a numeric Product ID.");
+            sc.nextLine(); // clear bad input
+            return;
         }
-        System.out.println("------------------------");
+        int pid = sc.nextInt();
+
+        System.out.print("Enter new quantity: ");
+
+        if (!sc.hasNextInt()) {
+            System.out.println("❌ Invalid quantity. Please enter a number.");
+            sc.nextLine();
+            return;
+        }
+        int qty = sc.nextInt();
+
+        try {
+            boolean updated = service.updateCartItem(userId, pid, qty);
+
+            if (updated) {
+                System.out.println("✅ Cart updated successfully");
+            } else {
+                System.out.println("❌ Item not found in cart");
+            }
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ " + e.getMessage());
+        }
+
+        // Refresh cart view
+        viewCart(userId);
+    }
+
+
+    public void removeItem(int userId) {
+
+        viewCart(userId);
+
+        System.out.print("Product ID to remove: ");
+        int pid = sc.nextInt();
+
+        System.out.println(
+                service.removeCartItem(userId, pid)
+                        ? " Item removed"
+                        : " Item not found"
+        );
+
+        viewCart(userId);
+    }
+
+    public void viewCart(int userId) {
+        service.viewCart(userId);
     }
 }
