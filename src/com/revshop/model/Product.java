@@ -1,19 +1,35 @@
 package com.revshop.model;
 
-import java.time.LocalDateTime;
-
 public class Product {
-    public int product_id;
-    public int seller_id;
-    public int category_id;
-    public String name;
-    public String description;
-    public double price;
-    public double mrp;
-    public double discount_price;
-    public int stock_quantity;
-    public int stock_threshold;
-    public boolean is_active;
-    public LocalDateTime created_at;
-    public LocalDateTime updated_at;
+
+    private int productId;
+    private String name;
+    private double price;
+
+    //  Getter & Setter for productId
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    //  Getter & Setter for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    //  Getter & Setter for price
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

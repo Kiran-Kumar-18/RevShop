@@ -17,7 +17,7 @@ public class CartController {
     public void addProduct(int userId, int productId, int quantity) {
 
         if (quantity <= 0) {
-            System.out.println("Quantity must be less than zero");
+            System.out.println("Quantity must be greater than zero");
             return;
         }
 
