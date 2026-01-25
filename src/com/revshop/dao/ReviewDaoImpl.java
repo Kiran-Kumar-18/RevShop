@@ -10,7 +10,7 @@ public class ReviewDaoImpl implements IReviewDAO {
     @Override
     public boolean addReview(Review review) {
         try (Connection conn = JDBCUtil.getConnection()) {
-            // ✅ Enable autocommit
+
             conn.setAutoCommit(true);
 
             String sql = "INSERT INTO reviews VALUES (?,?,?,?,?)";
@@ -22,8 +22,8 @@ public class ReviewDaoImpl implements IReviewDAO {
             ps.setInt(4, review.getRating());
             ps.setString(5, review.getReviewComment());
 
-            ps.executeUpdate(); // insert runs and auto-commits
-            System.out.println("Review inserted into DB.");
+            ps.executeUpdate();
+            System.out.println("Review inserted into DB..");
         } catch (Exception e) {
             e.printStackTrace();
         }
