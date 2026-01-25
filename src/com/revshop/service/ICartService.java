@@ -7,6 +7,5 @@ public interface ICartService {
     boolean updateCartItem(int userId, int productId, int qty);
 
     boolean removeCartItem(int userId, int productId);
-
     void viewCart(int userId);
 }

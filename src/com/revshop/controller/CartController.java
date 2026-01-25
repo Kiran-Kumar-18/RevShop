@@ -28,10 +28,8 @@ public class CartController {
             System.out.println("Failed to add product to cart: " + e.getMessage());
         }
     }
-
     // Remove product from cart
     public void removeProduct(int userId, int productId) {
-
         try {
             cartService.removeFromCart(userId, productId);
             System.out.println("Product removed from cart successfully");

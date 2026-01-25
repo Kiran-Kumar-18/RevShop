@@ -67,6 +67,7 @@ public class CartDAO implements ICartDAO {
         return false;
     }
 
+
     @Override
     public int getCurrentQuantity(int userId, int productId) {
 
