@@ -2,92 +2,72 @@ package com.revshop.main;
 
 import java.util.Scanner;
 
-import com.revshop.model.Payment;
-import com.revshop.model.Review;
-import com.revshop.service.IPaymentService;
-import com.revshop.service.IReviewService;
-import com.revshop.service.PaymentServiceImpl;
-import com.revshop.service.ReviewServiceImpl;
+import com.revshop.controller.CartController;
+import com.revshop.controller.ProductController;
+import com.revshop.controller.UserController;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        // ONE Scanner for entire application
         Scanner sc = new Scanner(System.in);
 
-        // Service implementations
-        IPaymentService paymentService = new PaymentServiceImpl();
-        IReviewService reviewService = new ReviewServiceImpl();
+        // Controllers
+        UserController userController = new UserController(sc);
+        ProductController productController = new ProductController();
+        CartController cartController = new CartController();
+
+        int userId = -1; // not logged in
 
         while (true) {
-            System.out.println("\n=== RevShop Menu ===");
-            System.out.println("1. Add Payment");
-            System.out.println("2. Add Review");
-            System.out.println("3. Exit");
-            System.out.print("Enter choice: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // consume newline
 
-            switch (choice) {
+            // ================= NOT LOGGED IN =================
+            if (userId == -1) {
 
-                case 1:
-                    Payment payment = new Payment();
+                System.out.println("\n1. Register");
+                System.out.println("2. Login");
+                System.out.println("3. Exit");
+                System.out.print("Enter choice: ");
 
+                int choice = Integer.parseInt(sc.nextLine());
 
+                switch (choice) {
+                    case 1 -> userController.register();
+                    case 2 -> userId = userController.login();
+                    case 3 -> {
+                        System.out.println("Thank you for using RevShop!");
+                        System.exit(0);
+                    }
+                    default -> System.out.println("Invalid choice");
+                }
+            }
 
+            // ================= LOGGED IN =================
+            else {
 
-                    System.out.print("Enter Order Id: ");
-                    payment.setOrderId(sc.nextInt());
+                System.out.println("\n1. View Products");
+                System.out.println("2. Add To Cart");
+                System.out.println("3. Update Cart Item");
+                System.out.println("4. Remove Cart Item");
+                System.out.println("5. View Cart");
+                System.out.println("6. Logout");
+                System.out.print("Enter choice: ");
 
-                    System.out.print("Enter Amount: ");
-                    payment.setAmount(sc.nextDouble());
-                    sc.nextLine(); // consume newline
+                int choice = Integer.parseInt(sc.nextLine());
 
-                    System.out.print("Enter Payment Method: ");
-                    payment.setPaymentMethod(sc.nextLine());
-
-                    System.out.print("Enter Payment Status: ");
-                    payment.setPaymentStatus(sc.nextLine());
-
-                    // ✅ Call service method to insert payment
-                    paymentService.processPayment(payment);
-
-                    System.out.println("Payment added successfully.");
-                    break;
-
-                case 2:
-                    Review review = new Review();
-
-                    System.out.print("Enter Review Id: ");
-                    review.setReviewId(sc.nextInt());
-
-                    System.out.print("Enter Product Id: ");
-                    review.setProductId(sc.nextInt());
-
-                    System.out.print("Enter User Id: ");
-                    review.setUserId(sc.nextInt());
-
-                    System.out.print("Enter Rating (1-5): ");
-                    review.setRating(sc.nextInt());
-                    sc.nextLine(); // consume newline
-
-                    System.out.print("Enter Review Comment: ");
-                    review.setReviewComment(sc.nextLine());
-
-                    // ✅ Call service method to insert review
-                    reviewService.addReview(review);
-
-                    System.out.println("Review added successfully.");
-                    break;
-
-                case 3:
-                    System.out.println("Exiting RevShop.");
-                    sc.close();
-                    System.exit(0);
-                    break;
-
-                default:
-                    System.out.println("Invalid choice. Try again.");
+                switch (choice) {
+                    case 1 -> productController.showProducts();
+                    case 2 -> cartController.addItem(userId);
+                    case 3 -> cartController.updateItem(userId);
+                    case 4 -> cartController.removeItem(userId);
+                    case 5 -> cartController.viewCart(userId);
+                    case 6 -> {
+                        userId = -1;
+                        System.out.println("Logged out successfully");
+                    }
+                    default -> System.out.println("Invalid choice");
+                }
             }
         }
     }
