@@ -6,7 +6,7 @@ import java.util.*;
 
 public class JDBCUtil {
 
-    private static final String URL ="jdbc:oracle:thin:@localhost:1521/FREEPDB1";
+    private static final String URL ="jdbc:oracle:thin:@localhost:1521/XEPDB1";
     private static final String USER = "revshop";
     private static final String PASSWORD = "revshop1";
 
