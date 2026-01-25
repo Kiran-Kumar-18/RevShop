@@ -2,8 +2,6 @@ package com.revshop.dao;
 
 public interface ICartDAO {
 
-
-
     int removeCartItem(int userId, int productId);
     boolean cartItemExists(int userId, int productId);
     int getCurrentQuantity(int userId, int productId);

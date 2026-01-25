@@ -10,13 +10,14 @@ public class CartController {
     private final ICartService service = new CartService();
     private final ProductController productController = new ProductController();
     private final Scanner sc = new Scanner(System.in);
+
     public void addItem(int userId) {
 
         List<Integer> productIds = productController.showProductsWithNumbers();
 
         if (productIds.isEmpty()) return;
 
-        System.out.print("Choose Product Number:: ");
+        System.out.print("Choose Product Number: ");
         int choice = sc.nextInt();
 
         if (choice <= 0 || choice > productIds.size()) {
