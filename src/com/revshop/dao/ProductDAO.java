@@ -1,25 +1,47 @@
 package com.revshop.dao;
 
-import com.revshop.model.Payment;
-import com.revshop.util.JDBCUtil;
 import java.sql.*;
+import java.util.*;
+import com.revshop.model.Product;
+import com.revshop.util.JDBCUtil;
 
-public class PaymentDao {
+public class ProductDAO implements IProductDAO {
 
-    public boolean make_payment(Payment p) {
+    @Override
+    public List<Product> fetchProducts() {
+
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT product_id, name, price FROM products WHERE is_active = 1";
+
         try (Connection con = JDBCUtil.getConnection();
-             PreparedStatement ps =
-                     con.prepareStatement("insert into payments values (?,?,?,?,?,?)")) {
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
 
-            ps.setInt(1, p.payment_id);
-            ps.setInt(2, p.order_id);
-            ps.setString(3, p.method);
-            ps.setDouble(4, p.amount);
-            ps.setString(5, p.payment_status);
-            ps.setTimestamp(6, Timestamp.valueOf(p.paid_at));
-            return ps.executeUpdate() > 0;
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProductId(rs.getInt("product_id"));
+                p.setName(rs.getString("name"));
+                p.setPrice(rs.getDouble("price"));
+                products.add(p);
+            }
+
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+
+        return products;
+    }
+
+    @Override
+    public boolean productExists(int productId) {
+        String sql = "SELECT 1 FROM products WHERE product_id = ?";
+        try (Connection con = JDBCUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, productId);
+            return ps.executeQuery().next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

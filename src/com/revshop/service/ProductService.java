@@ -1,12 +1,15 @@
 package com.revshop.service;
 
-import com.revshop.dao.*;
-import com.revshop.model.*;
 import java.util.List;
+import com.revshop.dao.IProductDAO;
+import com.revshop.dao.ProductDAO;
+import com.revshop.model.Product;
 
 public class ProductService {
-    ProductDao dao = new ProductDao();
-    public List<Product> fetch_products() {
-        return dao.get_all_products();
+
+    private final IProductDAO productDAO = new ProductDAO();
+
+    public List<Product> fetchProducts() {
+        return productDAO.fetchProducts();
     }
 }

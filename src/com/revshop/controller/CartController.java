@@ -48,7 +48,7 @@ public class CartController {
         System.out.print("Enter Product ID to update (number only): ");
 
         if (!sc.hasNextInt()) {
-            System.out.println("❌ Invalid input. Please enter a numeric Product ID.");
+            System.out.println("Invalid input. Please enter a numeric Product ID.");
             sc.nextLine(); // clear bad input
             return;
         }
@@ -57,7 +57,7 @@ public class CartController {
         System.out.print("Enter new quantity: ");
 
         if (!sc.hasNextInt()) {
-            System.out.println("❌ Invalid quantity. Please enter a number.");
+            System.out.println(" Invalid quantity. Please enter a number.");
             sc.nextLine();
             return;
         }
@@ -67,13 +67,13 @@ public class CartController {
             boolean updated = service.updateCartItem(userId, pid, qty);
 
             if (updated) {
-                System.out.println("✅ Cart updated successfully");
+                System.out.println(" Cart updated successfully");
             } else {
-                System.out.println("❌ Item not found in cart");
+                System.out.println("Item not found in cart");
             }
 
         } catch (IllegalArgumentException e) {
-            System.out.println("❌ " + e.getMessage());
+            System.out.println("  " + e.getMessage());
         }
 
         // Refresh cart view

@@ -9,21 +9,28 @@ public class CartDAO implements ICartDAO {
 
         String insertSql =
                 "INSERT INTO cart_items (cart_item_id, cart_id, product_id, quantity) " +
-                        "VALUES (cart_items_seq.NEXTVAL, " +
-                        "(SELECT cart_id FROM carts WHERE user_id=?), ?, ?)";
+                        "VALUES (cart_items_seq.NEXTVAL, ?, ?, ?)";
+
+        String updateSql =
+                "UPDATE cart_items SET quantity = quantity + ? " +
+                        "WHERE cart_id = ? AND product_id = ?";
 
         try (Connection con = JDBCUtil.getConnection()) {
 
-            if (cartItemExists(userId, productId)) {
+            int cartId = getOrCreateCartId(userId, con);
 
-                int currentQty = getCurrentQuantity(userId, productId);
-                int newQty = currentQty + qty;
-
-                updateCartItem(userId, productId, newQty);
-            }
-            else {
+            if (cartItemExists(cartId, productId, con)) {
+                // UPDATE quantity
+                try (PreparedStatement ps = con.prepareStatement(updateSql)) {
+                    ps.setInt(1, qty);
+                    ps.setInt(2, cartId);
+                    ps.setInt(3, productId);
+                    ps.executeUpdate();
+                }
+            } else {
+                // ➕ INSERT new row
                 try (PreparedStatement ps = con.prepareStatement(insertSql)) {
-                    ps.setInt(1, userId);
+                    ps.setInt(1, cartId);
                     ps.setInt(2, productId);
                     ps.setInt(3, qty);
                     ps.executeUpdate();
@@ -34,6 +41,9 @@ public class CartDAO implements ICartDAO {
             e.printStackTrace();
         }
     }
+
+
+
 
 
     @Override
@@ -160,4 +170,52 @@ public class CartDAO implements ICartDAO {
             e.printStackTrace();
         }
     }
+
+    private int getOrCreateCartId(int userId, Connection con) throws Exception {
+
+        // 1. Try to get existing cart
+        String selectSql = "SELECT cart_id FROM carts WHERE user_id = ?";
+        try (PreparedStatement ps = con.prepareStatement(selectSql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("cart_id");
+            }
+        }
+
+        // 2. If not exists, create cart
+        String insertSql =
+                "INSERT INTO carts (cart_id, user_id, created_at) " +
+                        "VALUES (carts_seq.NEXTVAL, ?, SYSDATE)";
+
+        try (PreparedStatement ps = con.prepareStatement(insertSql)) {
+            ps.setInt(1, userId);
+            ps.executeUpdate();
+        }
+
+        // 3. Fetch newly created cart_id
+        try (PreparedStatement ps = con.prepareStatement(selectSql)) {
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("cart_id");
+            }
+        }
+
+        throw new RuntimeException("Unable to create cart for user");
+    }
+
+    private boolean cartItemExists(int cartId, int productId, Connection con) throws Exception {
+
+        String sql = "SELECT quantity FROM cart_items WHERE cart_id = ? AND product_id = ?";
+
+        try (PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cartId);
+            ps.setInt(2, productId);
+            return ps.executeQuery().next();
+        }
+    }
+
+
+
 }
