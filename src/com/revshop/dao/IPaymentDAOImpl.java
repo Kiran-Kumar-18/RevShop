@@ -2,8 +2,7 @@ package com.revshop.dao;
 
 import com.revshop.model.Payment;
 
-public interface IPaymentDAO {
-    boolean addPayment(Payment payment);
+public interface IPaymentDAOImpl {
 
     boolean savePayment(Payment payment);
 }

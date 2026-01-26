@@ -1,16 +1,14 @@
 package com.revshop.service;
 
-import com.revshop.dao.IPaymentDAO;
+import com.revshop.dao.IPaymentDAOImpl;
 import com.revshop.dao.PaymentDAO;
 import com.revshop.model.Payment;
 
-public class PaymentService implements IPaymentService {
+public class PaymentService implements IPaymentServiceImpl {
 
-    private IPaymentDAO paymentDAO = new PaymentDAO();
+    private IPaymentDAOImpl paymentDAO = new PaymentDAO();
 
-    @Override
-    public void addPayment(Payment payment) {
-
+    public PaymentService() throws Exception {
     }
 
     @Override
