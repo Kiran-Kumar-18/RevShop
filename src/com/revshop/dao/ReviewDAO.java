@@ -5,22 +5,42 @@ import com.revshop.util.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class ReviewDAO implements IReviewDAOImpl {
+
+    private Connection connection = JDBCUtil.getConnection();
+
+    public ReviewDAO() throws Exception {
+    }
 
     @Override
     public boolean addReview(Review review) {
         try {
-            Connection conn = JDBCUtil.getConnection();
-            PreparedStatement ps = conn.prepareStatement(
-                    "insert into reviews(product_id,user_id,rating,comment) values(?,?,?,?)"
-            );
-            ps.setInt(1, review.getProductId());
-            ps.setInt(2, review.getUserId());
-            ps.setInt(3, review.getRating());
-            ps.setString(4, review.getComment());
+            Statement st = connection.createStatement();
+            ResultSet rs = st.executeQuery("select reviews_seq.nextval from dual");
+
+            if (rs.next()) {
+                review.setReviewId(rs.getInt(1));
+            }
+
+            String sql =
+                    "insert into reviews(review_id,product_id,user_id,rating,review_comment) " +
+                            "values(?,?,?,?,?)";
+
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, review.getReviewId());
+            ps.setInt(2, review.getProductId());
+            ps.setInt(3, review.getUserId());
+            ps.setInt(4, review.getRating());
+            ps.setString(5, review.getReviewComment());
+
             return ps.executeUpdate() > 0;
+
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

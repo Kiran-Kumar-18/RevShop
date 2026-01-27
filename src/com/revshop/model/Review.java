@@ -1,20 +1,12 @@
 package com.revshop.model;
 
 public class Review {
+
     private int reviewId;
     private int productId;
     private int userId;
     private int rating;
-    private String comment;
-
-    public Review() {}
-
-    public Review(int productId, int userId, int rating, String comment) {
-        this.productId = productId;
-        this.userId = userId;
-        this.rating = rating;
-        this.comment = comment;
-    }
+    private String reviewComment;
 
     public int getReviewId() {
         return reviewId;
@@ -49,14 +41,10 @@ public class Review {
     }
 
     public String getReviewComment() {
-        return comment;
+        return reviewComment;
     }
 
-    public void setReviewComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment() {
-        return "";
+    public void setReviewComment(String reviewComment) {
+        this.reviewComment = reviewComment;
     }
 }

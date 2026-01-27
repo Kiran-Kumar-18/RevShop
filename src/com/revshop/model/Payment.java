@@ -1,20 +1,12 @@
 package com.revshop.model;
 
 public class Payment {
+
     private int paymentId;
     private int orderId;
     private double amount;
     private String paymentMethod;
     private String paymentStatus;
-
-    public Payment() {}
-
-    public Payment(int orderId, double amount, String paymentMethod, String paymentStatus) {
-        this.orderId = orderId;
-        this.amount = amount;
-        this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
-    }
 
     public int getPaymentId() {
         return paymentId;
