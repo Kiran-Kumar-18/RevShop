@@ -1,12 +1,16 @@
 package com.revshop.service;
 
-import com.revshop.dao.IReviewDAO;
-import com.revshop.dao.ReviewDAO;
+import com.revshop.dao.IReviewDAOImpl;
 import com.revshop.model.Review;
 
 public class ReviewService implements IReviewService {
 
-    private IReviewDAO reviewDAO = new ReviewDAO();
+    private IReviewDAOImpl reviewDAO = new IReviewDAOImpl() {
+        @Override
+        public boolean addReview(Review review) {
+            return false;
+        }
+    };
 
     @Override
     public boolean submitReview(Review review) {

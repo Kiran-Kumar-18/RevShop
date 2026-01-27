@@ -2,7 +2,7 @@ package com.revshop.dao;
 
 import com.revshop.model.Review;
 
-public interface IReviewDAO {
+public interface IReviewDAOImpl {
 
     boolean addReview(Review review);
 }

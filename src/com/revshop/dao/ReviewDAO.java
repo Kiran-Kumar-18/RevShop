@@ -6,7 +6,7 @@ import com.revshop.util.JDBCUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-public class ReviewDAO implements IReviewDAO {
+public class ReviewDAO implements IReviewDAOImpl {
 
     @Override
     public boolean addReview(Review review) {

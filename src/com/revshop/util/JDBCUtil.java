@@ -1,24 +1,41 @@
 package com.revshop.util;
-
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class JDBCUtil {
 
-    private static final String URL ="jdbc:oracle:thin:@localhost:1521/XEPDB1";
-    private static final String USER = "revshop";
-    private static final String PASSWORD = "revshop1";
+    private static String db_url;
+    private static String db_username;
+    private static String db_password;
 
     static {
-        try {
-            Class.forName("oracle.jdbc.OracleDriver"); // ✅ modern driver
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Oracle JDBC Driver not found. Add ojdbc jar.", e);
+        try (InputStream is = JDBCUtil.class
+                .getClassLoader()
+                .getResourceAsStream("db.properties")) {
+            Properties properties = new Properties();
+            properties.load(is);
+            db_url = properties.getProperty("DB.URL");
+            db_username = properties.getProperty("DB.USERNAME");
+            db_password = properties.getProperty("DB.PASSWORD");
+        } catch (Exception e) {
+            e.fillInStackTrace();
         }
     }
 
-    public static Connection getConnection() throws Exception {
-        return DriverManager.getConnection(URL, USER, PASSWORD);
+    private JDBCUtil() {}
+
+    public static Connection getConnection() {
+        Connection con = null;
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            con = DriverManager.getConnection(db_url, db_username, db_password);
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+
+        }
+        return con;
     }
 }
