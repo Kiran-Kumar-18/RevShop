@@ -29,9 +29,9 @@ public class UserController {
         int userId = service.login(email, password);
 
         if (userId > 0) {
-            System.out.println("Login successful! Welcome 🙂");
+            System.out.println("Login successful! Welcome ");
         } else {
-            System.out.println("Invalid email or password ❌");
+            System.out.println("Invalid email or password ");
         }
 
         return userId;
@@ -56,6 +56,6 @@ public class UserController {
 
         service.register(user);
 
-        System.out.println("Registered successfully! Please login ✅");
+        System.out.println("Registered successfully! Please login ");
     }
 }

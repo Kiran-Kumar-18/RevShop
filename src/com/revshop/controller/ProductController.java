@@ -54,4 +54,27 @@ public class ProductController {
 
         return productIds;
     }
+    public void showProductsByCategory(int categoryId) {
+
+        List<Product> products = service.getProductsByCategory(categoryId);
+
+        System.out.println("\n=== Products in Category ===");
+
+        // ✅ UX improvement: empty check
+        if (products.isEmpty()) {
+            System.out.println("No products found in this category.");
+            return;
+        }
+
+        for (Product p : products) {
+            System.out.println(
+                    p.getProductId() + " | " +
+                            p.getName() + " | ₹" +
+                            p.getPrice()
+            );
+        }
+    }
+
+
+
 }
