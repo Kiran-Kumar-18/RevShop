@@ -1,11 +1,41 @@
 package com.revshop.model;
 
-import java.time.LocalDateTime;
-
 public class CartItem {
-    public int cart_item_id;
-    public int cart_id;
-    public int product_id;
-    public int quantity;
-    public LocalDateTime added_at;
+
+    private int cartItemId;
+    private int cartId;
+    private int productId;
+    private int quantity;
+
+    public int getCartItemId() {
+        return cartItemId;
+    }
+
+    public void setCartItemId(int cartItemId) {
+        this.cartItemId = cartItemId;
+    }
+
+    public int getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

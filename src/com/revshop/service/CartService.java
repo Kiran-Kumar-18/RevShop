@@ -1,45 +1,46 @@
 package com.revshop.service;
 
-import com.revshop.dao.*;
+import com.revshop.dao.CartItemDao;
+import com.revshop.model.CartItem;
 
-public class CartService implements ICartService {
+import java.util.List;
 
-    private final ICartDAO cartDAO = new CartDAO();
-    private final IProductDAO productDAO = new ProductDAO();
+public class CartService implements ICartServiceImpl {
 
-
-    @Override
-    public boolean addToCart(int userId, int productId, int qty) {
-
-        if (!productDAO.productExists(productId))
-            return false;
-
-        if (qty <= 0)
-            throw new IllegalArgumentException("Quantity must be > 0");
-
-        cartDAO.addToCart(userId, productId, qty);
-        return true;
-    }
-
+    private CartItemDao cartItemDao = new CartItemDao();
 
     @Override
-    public boolean updateCartItem(int userId, int productId, int qty) {
+    public void addProductToCart(int cartId, int productId, int quantity) {
 
-        if (qty <= 0) throw new IllegalArgumentException("Quantity must be > 0");
-        if (!cartDAO.cartItemExists(userId, productId)) return false;
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be greater than zero");
+        }
 
-        return cartDAO.updateCartItem(userId, productId, qty) > 0;
+        CartItem item = new CartItem();
+        item.setCartId(cartId);
+        item.setProductId(productId);
+        item.setQuantity(quantity);
+
+        cartItemDao.addItem(item);
     }
 
     @Override
-    public boolean removeCartItem(int userId, int productId) {
-
-        if (!cartDAO.cartItemExists(userId, productId)) return false;
-        return cartDAO.removeCartItem(userId, productId) > 0;
+    public void updateCartItem(int cartId, int productId, int quantity) {
+        cartItemDao.updateQuantity(cartId, productId, quantity);
     }
 
     @Override
-    public void viewCart(int userId) {
-        cartDAO.viewCart(userId);
+    public void removeProductFromCart(int cartId, int productId) {
+        cartItemDao.removeItem(cartId, productId);
+    }
+
+    @Override
+    public List<CartItem> viewCartItems(int cartId) {
+        return cartItemDao.getCartItems(cartId);
+    }
+
+    @Override
+    public void clearCart(int cartId) {
+        cartItemDao.clearCart(cartId);
     }
 }
