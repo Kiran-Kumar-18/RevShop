@@ -1,11 +1,19 @@
 package com.revshop.service;
 
-import com.revshop.dao.OrderDao;
+import com.revshop.dao.IOrderDAOImpl;
+import com.revshop.dao.OrderDAO;
 import com.revshop.model.Order;
 
-public class OrderService {
-    OrderDao dao = new OrderDao();
-    public boolean place_order(Order o) {
-        return dao.create_order(o);
+public class OrderService implements IOrderServiceImpl {
+
+    private IOrderDAOImpl orderDAO;
+
+    public OrderService() {
+        orderDAO = new OrderDAO(); //  valid now
+    }
+
+    @Override
+    public boolean placeOrder(Order order) {
+        return orderDAO.insertOrder(order);
     }
 }
