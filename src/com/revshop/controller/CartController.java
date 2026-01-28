@@ -1,106 +1,92 @@
 package com.revshop.controller;
 
+import com.revshop.model.CartItem;
+import com.revshop.service.CartService;
+import com.revshop.service.ICartServiceImpl;
+
 import java.util.List;
 import java.util.Scanner;
-import com.revshop.service.*;
 
 public class CartController {
 
+    public static void main(String[] args) {
 
-    private final ICartService service = new CartService();
-    private final ProductController productController = new ProductController();
-    private final Scanner sc = new Scanner(System.in);
+        ICartServiceImpl service = new CartService();
+        Scanner sc = new Scanner(System.in);
 
-    public void addItem(int userId) {
+        int cartId = 1; // example cart id
 
-        List<Integer> productIds = productController.showProductsWithNumbers();
+        while (true) {
+            System.out.println("\n--- CART MENU ---");
+            System.out.println("1. Add Product to Cart");
+            System.out.println("2. View Cart");
+            System.out.println("3. Update Quantity");
+            System.out.println("4. Remove Product");
+            System.out.println("5. Clear Cart");
+            System.out.println("6. Exit");
 
-        if (productIds.isEmpty()) return;
+            int choice = sc.nextInt();
 
-        System.out.print("Choose Product Number: ");
-        int choice = sc.nextInt();
+            switch (choice) {
 
-        if (choice <= 0 || choice > productIds.size()) {
-            System.out.println(" Invalid choice");
-            return;
-        }
+                case 1:
+                    System.out.print("Enter Product ID: ");
+                    int productId = sc.nextInt();
 
-        int productId = productIds.get(choice - 1);
+                    System.out.print("Enter Quantity: ");
+                    int quantity = sc.nextInt();
 
-        System.out.print("Quantity: ");
-        int qty = sc.nextInt();
+                    service.addProductToCart(cartId, productId, quantity);
+                    System.out.println("✅ Item added to cart");
+                    break;
 
-        if (qty <= 0) {
-            System.out.println(" Quantity must be positive");
-            return;
-        }
+                case 2:
+                    List<CartItem> items = service.viewCartItems(cartId);
 
-        service.addToCart(userId, productId, qty);
-        System.out.println(" Cart updated successfully");
-        viewCart(userId);
-    }
+                    if (items.isEmpty()) {
+                        System.out.println("Cart is empty");
+                    } else {
+                        for (CartItem item : items) {
+                            System.out.println(
+                                    "Product ID: " + item.getProductId() +
+                                            " | Quantity: " + item.getQuantity()
+                            );
+                        }
+                    }
+                    break;
 
+                case 3:
+                    System.out.print("Enter Product ID: ");
+                    productId = sc.nextInt();
 
+                    System.out.print("Enter New Quantity: ");
+                    quantity = sc.nextInt();
 
-    public void updateItem(int userId) {
+                    service.updateCartItem(cartId, productId, quantity);
+                    System.out.println("✅ Quantity updated");
+                    break;
 
-        // Always show cart first
-        viewCart(userId);
+                case 4:
+                    System.out.print("Enter Product ID: ");
+                    productId = sc.nextInt();
 
-        System.out.print("Enter Product ID to update (number only): ");
+                    service.removeProductFromCart(cartId, productId);
+                    System.out.println("✅ Product removed from cart");
+                    break;
 
-        if (!sc.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a numeric Product ID.");
-            sc.nextLine(); // clear bad input
-            return;
-        }
-        int pid = sc.nextInt();
+                case 5:
+                    service.clearCart(cartId);
+                    System.out.println("✅ Cart cleared");
+                    break;
 
-        System.out.print("Enter new quantity: ");
+                case 6:
+                    System.out.println("Exiting...");
+                    sc.close();
+                    return;
 
-        if (!sc.hasNextInt()) {
-            System.out.println(" Invalid quantity. Please enter a number.");
-            sc.nextLine();
-            return;
-        }
-        int qty = sc.nextInt();
-
-        try {
-            boolean updated = service.updateCartItem(userId, pid, qty);
-
-            if (updated) {
-                System.out.println(" Cart updated successfully");
-            } else {
-                System.out.println("Item not found in cart");
+                default:
+                    System.out.println("Invalid choice");
             }
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("  " + e.getMessage());
         }
-
-        // Refresh cart view
-        viewCart(userId);
-    }
-
-
-    public void removeItem(int userId) {
-
-        viewCart(userId);
-
-        System.out.print("Product ID to be remove: ");
-        int pid = sc.nextInt();
-
-        System.out.println(
-                service.removeCartItem(userId, pid)
-                        ? " Item removed"
-                        : " Item not found"
-        );
-
-        viewCart(userId);
-    }
-
-
-    public void viewCart(int userId) {
-        service.viewCart(userId);
     }
 }
