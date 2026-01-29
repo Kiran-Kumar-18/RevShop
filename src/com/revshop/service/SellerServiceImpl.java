@@ -20,12 +20,12 @@ public class SellerServiceImpl implements ISellerService {
         }
 
         if (seller.getUserId() <= 0) {
-            System.out.println(" Invalid User ID");
+            System.out.println("Invalid User ID");
             return;
         }
 
         if (seller.getBusinessName() == null || seller.getBusinessName().isBlank()) {
-            System.out.println(" Business name is required");
+            System.out.println("Business name is required");
             return;
         }
 

@@ -12,7 +12,7 @@ public class JDBCUtil {
 
     static {
         try {
-            Class.forName("oracle.jdbc.OracleDriver"); // ✅ modern driver
+            Class.forName("oracle.jdbc.OracleDriver"); // modern driver
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Oracle JDBC Driver not found. Add ojdbc jar.", e);
         }
