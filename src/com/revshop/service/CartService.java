@@ -7,7 +7,6 @@ public class CartService implements ICartService {
     private final ICartDAO cartDAO = new CartDAO();
     private final IProductDAO productDAO = new ProductDAO();
 
-
     @Override
     public boolean addToCart(int userId, int productId, int qty) {
 
