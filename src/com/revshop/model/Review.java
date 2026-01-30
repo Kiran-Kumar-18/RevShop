@@ -47,4 +47,23 @@ public class Review {
     public void setReviewComment(String reviewComment) {
         this.reviewComment = reviewComment;
     }
+
+    private java.sql.Timestamp reviewDate;
+    private boolean accept;
+
+    public java.sql.Timestamp getReviewDate() {
+        return reviewDate;
+    }
+
+    public void setReviewDate(java.sql.Timestamp reviewDate) {
+        this.reviewDate = reviewDate;
+    }
+
+    public boolean isAccept() {
+        return accept;
+    }
+
+    public void setAccept(boolean accept) {
+        this.accept = accept;
+    }
 }

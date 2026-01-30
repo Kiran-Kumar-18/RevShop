@@ -1,7 +1,6 @@
 package com.revshop.service;
 
 import com.revshop.dao.IPasswordRecoveryDAOImpl;
-import com.revshop.dao.PasswordRecoveryDAO;
 import com.revshop.model.PasswordRecovery;
 
 public class PasswordRecoveryService

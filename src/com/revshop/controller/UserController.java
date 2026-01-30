@@ -4,41 +4,20 @@ import java.util.Scanner;
 
 import com.revshop.model.User;
 import com.revshop.service.IUserService;
-import com.revshop.service.UserService;
+import com.revshop.service.UserServiceImpl;
 
 public class UserController {
 
-    private final IUserService service;
+    private final IUserService userService;
     private final Scanner sc;
 
-    // Scanner comes from Main (single Scanner rule)
     public UserController(Scanner sc) {
+        this.userService = new UserServiceImpl();
         this.sc = sc;
-        this.service = new UserService();
     }
 
-    // ========== LOGIN ==========
-    public int login() {
-
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-
-        System.out.print("Password: ");
-        String password = sc.nextLine();
-
-        int userId = service.login(email, password);
-
-        if (userId > 0) {
-            System.out.println("Login successful! Welcome ");
-        } else {
-            System.out.println("Invalid email or password ");
-        }
-
-        return userId;
-    }
-
-    // ========== REGISTER ==========
-    public void register() {
+    // ================= REGISTER =================
+    public User register() {
 
         User user = new User();
 
@@ -54,8 +33,42 @@ public class UserController {
         System.out.print("Phone: ");
         user.setPhone(sc.nextLine());
 
-        service.register(user);
+        System.out.println("1. Buyer");
+        System.out.println("2. Seller");
+        System.out.print("Choose role: ");
+        int choice = Integer.parseInt(sc.nextLine());
 
-        System.out.println("Registered successfully! Please login ");
+        user.setRole(choice == 2 ? "Seller" : "Buyer");
+
+        // ✅ CORRECT — returns User, not int
+        User registeredUser = userService.register(user);
+
+        if (registeredUser == null || registeredUser.getUserId() <= 0) {
+            System.out.println("Registration failed");
+            return null;
+        }
+
+        System.out.println("Registration successful!");
+        return registeredUser;
+    }
+
+    // ================= LOGIN =================
+    public User login() {
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Password: ");
+        String password = sc.nextLine();
+
+        User user = userService.login(email, password);
+
+        if (user == null) {
+            System.out.println("Invalid email or password");
+            return null;
+        }
+
+        System.out.println("Login successful! Welcome " + user.getName());
+        return user;
     }
 }

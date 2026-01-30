@@ -9,4 +9,8 @@ public interface ICartDAO {
     int updateCartItem(int userId, int productId, int qty);
 
     void viewCart(int userId);
+    
+    java.util.List<com.revshop.model.CartItem> getCartItems(int userId);
+
+    void clearCart(int userId);
 }

@@ -12,11 +12,9 @@ public class SellerDAOImpl implements ISellerDAO {
     @Override
     public void addSeller(Seller seller) {
 
-        String sql = """
-            INSERT INTO sellers
-            (seller_id, user_id, business_name, gst_number, address, created_at)
-            VALUES (seller_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE)
-        """;
+        String sql = "INSERT INTO sellers " +
+            "(seller_id, user_id, business_name, gst_number, address, created_at) " +
+            "VALUES (seller_seq.NEXTVAL, ?, ?, ?, ?, SYSDATE)";
 
         try (Connection con = JDBCUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -45,6 +43,31 @@ public class SellerDAOImpl implements ISellerDAO {
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, sellerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                seller = new Seller();
+                seller.setSellerId(rs.getInt("seller_id"));
+                seller.setUserId(rs.getInt("user_id"));
+                seller.setBusinessName(rs.getString("business_name"));
+                seller.setGstNumber(rs.getString("gst_number"));
+                seller.setAddress(rs.getString("address"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return seller;
+    }
+
+    public Seller getSellerByUserId(int userId) {
+        Seller seller = null;
+        String sql = "SELECT * FROM sellers WHERE user_id = ?";
+
+        try (Connection con = JDBCUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+
+            ps.setInt(1, userId);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {

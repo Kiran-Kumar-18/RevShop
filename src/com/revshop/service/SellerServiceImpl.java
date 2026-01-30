@@ -3,6 +3,7 @@ package com.revshop.service;
 import com.revshop.dao.ISellerDAO;
 import com.revshop.dao.SellerDAOImpl;
 import com.revshop.model.Seller;
+import com.revshop.util.LoggerUtil;
 
 import java.util.List;
 
@@ -36,6 +37,14 @@ public class SellerServiceImpl implements ISellerService {
     @Override
     public Seller getSellerById(int sellerId) {
         return sellerDAO.getSellerById(sellerId);
+    }
+
+    @Override
+    public Seller getSellerByUserId(int userId) {
+        // We need to cast to SellerDAOImpl or add method to ISellerDAO
+        // I added it to ISellerDAO, so this casts implicitly? 
+        // No, I added it to ISellerDAO interface in previous step.
+        return sellerDAO.getSellerByUserId(userId);
     }
 
     @Override

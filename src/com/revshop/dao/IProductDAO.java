@@ -1,10 +1,25 @@
 package com.revshop.dao;
 
-import java.util.List;
 import com.revshop.model.Product;
+import java.util.List;
 
 public interface IProductDAO {
-    List<Product> fetchProducts();
+
+    boolean addProduct(Product product);
+
+    Product getProductById(int productId);
+
+    boolean updateProduct(Product product);
+
+    boolean deleteProduct(int productId);
+
+    List<Product> getAllProducts();
+
     boolean productExists(int productId);
+
     List<Product> getProductsByCategory(int categoryId);
+
+    List<Product> getProductsBySeller(int sellerId);
+
+    boolean updateStock(int productId, int qty);
 }

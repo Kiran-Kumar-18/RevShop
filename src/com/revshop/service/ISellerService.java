@@ -9,5 +9,7 @@ public interface ISellerService {
 
     Seller getSellerById(int sellerId);
 
+    Seller getSellerByUserId(int userId);
+
     List<Seller> getAllSellers();
 }

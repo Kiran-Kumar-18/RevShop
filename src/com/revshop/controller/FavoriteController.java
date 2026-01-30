@@ -4,56 +4,57 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.revshop.model.Favorite;
-import com.revshop.service.FavoriteService;
 import com.revshop.service.IFavoriteService;
+import com.revshop.service.FavoriteServiceImpl;
 
 public class FavoriteController {
 
-    private IFavoriteService favoriteService = new FavoriteService();
-    private Scanner sc = new Scanner(System.in);
+    private IFavoriteService favoriteService = new FavoriteServiceImpl();
+    private Scanner sc;
 
-    // 1️⃣ Add product to favorites
-    public void addFavorite(int userId) {
-
-        Favorite favorite = new Favorite();
-
-        favorite.setUserId(userId);
-
-        System.out.print("Enter Product Id to add to favorite: ");
-        int productId = sc.nextInt();
-        favorite.setProductId(productId);
-
-        favoriteService.addFavorite(favorite);
-        System.out.println("Product added to favorites");
+    public FavoriteController(Scanner sc) {
+        this.sc = sc;
     }
 
-    // 2️⃣ View favorites
+    public void addFavorite(int userId, int productId) {
+
+        Favorite favorite = new Favorite();
+        favorite.setUserId(userId);
+        favorite.setProductId(productId);
+
+        boolean isAdded = favoriteService.addFavorite(favorite);
+
+        if (isAdded) {
+            System.out.println("Product added to favorites");
+        } else {
+            System.out.println("Favorite already exists");
+        }
+    }
+
     public void viewFavorites(int userId) {
 
         List<Favorite> favorites = favoriteService.viewFavorites(userId);
 
         if (favorites.isEmpty()) {
-            System.out.println("No favorite products found");
+            System.out.println("No favorites found");
             return;
         }
 
-        System.out.println("\nYour Favorite Products:");
         for (Favorite f : favorites) {
             System.out.println(
-                    "Favorite Id: " + f.getFavoriteId() +
-                            " | Product Id: " + f.getProductId() +
-                            " | Added On: " + f.getCreatedAt()
+                    "FavId: " + f.getFavoriteId() +
+                            " ProductId: " + f.getProductId() +
+                            " Date: " + f.getCreatedAt()
             );
         }
     }
 
-    // 3️⃣ Remove favorite
-    public void removeFavorite(int userId) {
+    public void removeFavorite() {
 
-        System.out.print("Enter Favorite Id to remove: ");
-        int favoriteId = sc.nextInt();
+        System.out.print("Enter Favorite Id: ");
+        int favId = sc.nextInt();
 
-        favoriteService.removeFavorite(favoriteId);
-        System.out.println("Favorite removed successfully");
+        favoriteService.removeFavorite(favId);
+        System.out.println("Favorite removed");
     }
 }

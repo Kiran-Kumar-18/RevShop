@@ -9,6 +9,7 @@ public class Favorite {
     private int productId;
     private Date createdAt;
 
+
     // Getter & Setter for favoriteId
     public int getFavoriteId() {
         return favoriteId;
@@ -45,3 +46,4 @@ public class Favorite {
         this.createdAt = createdAt;
     }
 }
+

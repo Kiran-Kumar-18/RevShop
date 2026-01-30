@@ -1,60 +1,43 @@
 package com.revshop.controller;
 
 import java.util.Scanner;
-
-import com.revshop.service.IPasswordRecoveryServiceImpl;
-import com.revshop.service.PasswordRecoveryService;
+import com.revshop.service.IPasswordRecoveryService;
+import com.revshop.service.PasswordRecoveryServiceImpl;
 
 public class PasswordRecoveryController {
 
-    private final IPasswordRecoveryServiceImpl service =
-            new PasswordRecoveryService();
+    private IPasswordRecoveryService service =
+            new PasswordRecoveryServiceImpl();
 
     private final Scanner sc = new Scanner(System.in);
 
     public void startPasswordRecovery() {
 
-        System.out.println("\n=== Forgot Password ===");
-
-        System.out.print("Enter registered email: ");
+        System.out.print("Enter email: ");
         String email = sc.nextLine();
 
         String question = service.getSecurityQuestion(email);
-
         if (question == null) {
-            System.out.println("Email not found or recovery not set.");
+            System.out.println("Email not found");
             return;
         }
 
-        System.out.println("\nSecurity Question:");
         System.out.println(question);
-
-        System.out.print("Enter your answer: ");
+        System.out.print("Answer: ");
         String answer = sc.nextLine();
 
-        boolean valid = service.validateAnswer(email, answer);
-
-        if (valid) {
-            System.out.println("Answer verified.");
-
-            System.out.print("Enter new password: ");
-            String newPassword = sc.nextLine();
-
-            System.out.print("Confirm new password: ");
-            String confirmPassword = sc.nextLine();
-
-            if (!newPassword.equals(confirmPassword)) {
-                System.out.println("Passwords do not match.");
-                return;
-            }
-
-            boolean reset = service.resetPassword(email, newPassword);
-
-            if (reset) {
-                System.out.println("Password reset successful.");
-            } else {
-                System.out.println("Password reset failed.");
-            }
+        if (!service.validateAnswer(email, answer)) {
+            System.out.println("Wrong answer");
+            return;
         }
 
-    }}
+        System.out.print("New password: ");
+        String pwd = sc.nextLine();
+
+        if (service.resetPassword(email, pwd)) {
+            System.out.println("Password reset success");
+        } else {
+            System.out.println("Reset failed");
+        }
+    }
+}

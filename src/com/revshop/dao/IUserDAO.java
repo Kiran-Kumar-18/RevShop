@@ -4,7 +4,7 @@ import com.revshop.model.User;
 
 public interface IUserDAO {
 
-    void register(User user);
+    int register(User user);
 
     User login(String email, String password);
 
@@ -12,5 +12,10 @@ public interface IUserDAO {
 
     void updateUser(User user);
 
+    // PASSWORD METHODS
+    boolean validatePassword(int userId, String password);
+
     void changePassword(int userId, String newPassword);
+
+    boolean updatePasswordByEmail(String email, String newPassword);
 }

@@ -1,92 +1,73 @@
 package com.revshop.controller;
 
 import com.revshop.model.CartItem;
-import com.revshop.service.CartService;
-import com.revshop.service.ICartServiceImpl;
+import com.revshop.service.CartServiceImpl;
+import com.revshop.service.ICartService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class CartController {
 
-    public static void main(String[] args) {
+    private final ICartService cartService;
+    private final Scanner sc;
 
-        ICartServiceImpl service = new CartService();
-        Scanner sc = new Scanner(System.in);
+    public CartController(Scanner sc) {
+        this.cartService = new CartServiceImpl();
+        this.sc = sc; // Shared scanner
+    }
 
-        int cartId = 1; // example cart id
+    public void addItem(int userId) {
+        System.out.print("Enter Product ID: ");
+        int productId = sc.nextInt();
 
-        while (true) {
-            System.out.println("\n--- CART MENU ---");
-            System.out.println("1. Add Product to Cart");
-            System.out.println("2. View Cart");
-            System.out.println("3. Update Quantity");
-            System.out.println("4. Remove Product");
-            System.out.println("5. Clear Cart");
-            System.out.println("6. Exit");
+        System.out.print("Enter Quantity: ");
+        int quantity = sc.nextInt();
+        sc.nextLine(); // consume newline
 
-            int choice = sc.nextInt();
+        cartService.addProductToCart(userId, productId, quantity);
+        System.out.println("Item added to cart");
+    }
 
-            switch (choice) {
+    public void viewCart(int userId) {
+        List<CartItem> items = cartService.viewCartItems(userId);
 
-                case 1:
-                    System.out.print("Enter Product ID: ");
-                    int productId = sc.nextInt();
-
-                    System.out.print("Enter Quantity: ");
-                    int quantity = sc.nextInt();
-
-                    service.addProductToCart(cartId, productId, quantity);
-                    System.out.println("✅ Item added to cart");
-                    break;
-
-                case 2:
-                    List<CartItem> items = service.viewCartItems(cartId);
-
-                    if (items.isEmpty()) {
-                        System.out.println("Cart is empty");
-                    } else {
-                        for (CartItem item : items) {
-                            System.out.println(
-                                    "Product ID: " + item.getProductId() +
-                                            " | Quantity: " + item.getQuantity()
-                            );
-                        }
-                    }
-                    break;
-
-                case 3:
-                    System.out.print("Enter Product ID: ");
-                    productId = sc.nextInt();
-
-                    System.out.print("Enter New Quantity: ");
-                    quantity = sc.nextInt();
-
-                    service.updateCartItem(cartId, productId, quantity);
-                    System.out.println("✅ Quantity updated");
-                    break;
-
-                case 4:
-                    System.out.print("Enter Product ID: ");
-                    productId = sc.nextInt();
-
-                    service.removeProductFromCart(cartId, productId);
-                    System.out.println("✅ Product removed from cart");
-                    break;
-
-                case 5:
-                    service.clearCart(cartId);
-                    System.out.println("✅ Cart cleared");
-                    break;
-
-                case 6:
-                    System.out.println("Exiting...");
-                    sc.close();
-                    return;
-
-                default:
-                    System.out.println("Invalid choice");
+        if (items.isEmpty()) {
+            System.out.println("Cart is empty");
+        } else {
+            System.out.println("\nYour Cart:");
+            for (CartItem item : items) {
+                System.out.println(
+                        "Product ID: " + item.getProductId() +
+                        " | Quantity: " + item.getQuantity()
+                );
             }
         }
+    }
+
+    public void updateItem(int userId) {
+        System.out.print("Enter Product ID: ");
+        int productId = sc.nextInt();
+
+        System.out.print("Enter New Quantity: ");
+        int quantity = sc.nextInt();
+        sc.nextLine(); // consume newline
+
+        cartService.updateCartItem(userId, productId, quantity);
+        System.out.println("Quantity updated");
+    }
+
+    public void removeItem(int userId) {
+        System.out.print("Enter Product ID: ");
+        int productId = sc.nextInt();
+        sc.nextLine(); // consume newline
+
+        cartService.removeProductFromCart(userId, productId);
+        System.out.println("Product removed from cart");
+    }
+
+    public void clearCart(int userId) {
+        cartService.clearCart(userId);
+        System.out.println("Cart cleared");
     }
 }

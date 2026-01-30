@@ -9,28 +9,28 @@ import java.util.List;
 import com.revshop.model.Favorite;
 import com.revshop.util.JDBCUtil;
 
-public class FavoriteDAO implements IFavoriteDAO {
-
-    // 1️⃣ Add product to favorites
+public class FavoriteDAOImpl implements IFavoriteDAO {
     @Override
-    public void addFavorite(Favorite favorite) {
+    public boolean addFavorite(Favorite favorite) {
 
-        String sql = "INSERT INTO favorites (user_id, product_id) VALUES (?, ?)";
+        String sql =
+                "INSERT INTO favorites (favorite_id, user_id, product_id) " +
+                        "VALUES (favorites_seq.NEXTVAL, ?, ?)";
 
         try (Connection con = JDBCUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
 
             ps.setInt(1, favorite.getUserId());
             ps.setInt(2, favorite.getProductId());
-
             ps.executeUpdate();
+            return true;
 
         } catch (Exception e) {
-            System.out.println("Favorite already exists or database error");
+            return false;
         }
     }
 
-    // 2️⃣ Get all favorites of a user
+
     @Override
     public List<Favorite> getFavoritesByUser(int userId) {
 
@@ -49,7 +49,6 @@ public class FavoriteDAO implements IFavoriteDAO {
                 fav.setUserId(rs.getInt("user_id"));
                 fav.setProductId(rs.getInt("product_id"));
                 fav.setCreatedAt(rs.getTimestamp("created_at"));
-
                 favorites.add(fav);
             }
 
@@ -60,7 +59,6 @@ public class FavoriteDAO implements IFavoriteDAO {
         return favorites;
     }
 
-    // 3️⃣ Remove favorite by id
     @Override
     public void removeFavorite(int favoriteId) {
 

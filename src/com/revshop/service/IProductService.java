@@ -1,12 +1,25 @@
 package com.revshop.service;
 
-import java.util.List;
 import com.revshop.model.Product;
+import java.util.List;
 
 public interface IProductService {
 
-    List<Product> fetchProducts();
+    boolean addProduct(Product product);
 
-    // ADD THIS
+    Product getProductById(int productId);
+
+    boolean updateProduct(int productId, String name, double price);
+
+    boolean deleteProduct(int productId);
+
+    boolean updateStock(int productId, int qty);
+
+    List<Product> getAllProducts();
+
+    boolean productExists(int productId);
+
     List<Product> getProductsByCategory(int categoryId);
+
+    List<Product> getProductsBySeller(int sellerId);
 }

@@ -4,13 +4,16 @@ import com.revshop.model.User;
 
 public interface IUserService {
 
-    void register(User user);
+    User register(User user);
 
-    int login(String email, String password);
+    User login(String email, String password);
 
     User viewProfile(int userId);
 
     void updateProfile(User user);
 
-    void changePassword(int userId, String newPassword);
+    // PASSWORD FEATURES
+    boolean changePassword(int userId, String oldPassword, String newPassword);
+
+    boolean forgotPassword(String email, String newPassword);
 }

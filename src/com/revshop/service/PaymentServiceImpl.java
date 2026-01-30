@@ -8,9 +8,14 @@ import java.util.List;
 
 public class PaymentServiceImpl implements IPaymentService {
 
-    private IPaymentDAO paymentDAO = new PaymentDAOImpl();
+    private IPaymentDAO paymentDAO;
 
-    public PaymentServiceImpl() throws Exception {
+    public PaymentServiceImpl() {
+        try {
+            paymentDAO = new PaymentDAOImpl();
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize PaymentDAO", e);
+        }
     }
 
     @Override
@@ -21,6 +26,9 @@ public class PaymentServiceImpl implements IPaymentService {
 
         if (payment.getAmount() <= 0)
             throw new IllegalArgumentException("Amount must be greater than 0");
+
+        if (payment.getPaymentStatus() == null)
+            payment.setPaymentStatus("SUCCESS");
 
         return paymentDAO.savePayment(payment);
     }

@@ -14,7 +14,8 @@ public class OrderItemServiceImpl implements IOrderItemService {
 
     @Override
     public boolean addOrderItem(OrderItem item) {
-        item.subtotal = item.unit_price * item.quantity;
+        double subtotal = item.getUnitPrice() * item.getQuantity();
+        item.setSubtotal(subtotal);
         return dao.insertOrderItem(item);
     }
 }

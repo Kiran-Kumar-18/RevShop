@@ -1,6 +1,9 @@
 package com.revshop.dao;
 
 import java.sql.*;
+import java.util.List;
+
+import com.revshop.model.CartItem;
 import com.revshop.util.JDBCUtil;
 
 public class CartDAO implements ICartDAO {
@@ -171,6 +174,16 @@ public class CartDAO implements ICartDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<CartItem> getCartItems(int userId) {
+        return List.of();
+    }
+
+    @Override
+    public void clearCart(int userId) {
+
     }
 
     private int getOrCreateCartId(int userId, Connection con) throws Exception {

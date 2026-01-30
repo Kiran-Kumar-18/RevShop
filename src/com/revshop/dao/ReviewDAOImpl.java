@@ -8,11 +8,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class ReviewDAO implements IReviewDAOImpl {
+public class ReviewDAOImpl implements IReviewDAO {
 
     private Connection connection = JDBCUtil.getConnection();
 
-    public ReviewDAO() throws Exception {
+    // ✅ Constructor name fixed
+    public ReviewDAOImpl() throws Exception {
     }
 
     @Override
@@ -26,7 +27,7 @@ public class ReviewDAO implements IReviewDAOImpl {
             }
 
             String sql =
-                    "insert into reviews(review_id,product_id,user_id,rating,review_comment) " +
+                    "insert into reviews(review_id, product_id, user_id, rating, review_comment) " +
                             "values(?,?,?,?,?)";
 
             PreparedStatement ps = connection.prepareStatement(sql);

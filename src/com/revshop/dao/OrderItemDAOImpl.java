@@ -13,23 +13,18 @@ public class OrderItemDAOImpl implements IOrderItemDAO {
 
         String sql =
                 "INSERT INTO order_items " +
-                        "(order_id, product_id, seller_id, unit_price, quantity, subtotal) " +
-                        "VALUES (?, ?, ?, ?, ?, ?)";
+                        "(order_id, product_id, seller_id, quantity) " +
+                        "VALUES (?, ?, ?, ?)";
 
-        try (Connection con = JDBCUtil.getConnection()) {
+        try (Connection con = JDBCUtil.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            if (con == null) return false;
+            ps.setInt(1, item.getOrderId());
+            ps.setInt(2, item.getProductId());
+            ps.setInt(3, item.getSellerId());
+            ps.setInt(4, item.getQuantity());
 
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, item.order_id);
-            ps.setInt(2, item.product_id);
-            ps.setInt(3, item.seller_id);
-            ps.setDouble(4, item.unit_price);
-            ps.setInt(5, item.quantity);
-            ps.setDouble(6, item.subtotal);
-
-            ps.executeUpdate();
-            return true;
+            return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,14 +1,19 @@
 package com.revshop.controller;
 
 import com.revshop.model.Seller;
+import com.revshop.service.ISellerService;
 import com.revshop.service.SellerServiceImpl;
 
 public class SellerController {
 
-    private SellerServiceImpl sellerService = new SellerServiceImpl();
+    private ISellerService sellerService = new SellerServiceImpl();
 
     public void registerSeller(Seller seller) {
         sellerService.registerSeller(seller);
+    }
+
+    public Seller getSellerByUserId(int userId) {
+        return sellerService.getSellerByUserId(userId);
     }
 
     public void viewSeller(int sellerId) {
