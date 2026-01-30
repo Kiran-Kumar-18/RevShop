@@ -11,17 +11,17 @@ import com.revshop.util.JDBCUtil;
 
 public class ProductDAOImpl implements IProductDAO {
 
-    // ========== ADD PRODUCT ==========
+    // ADD PRODUCT
     @Override
     public boolean addProduct(Product p) {
 
         String sql =
                 "INSERT INTO products " +
                         "(product_id, seller_id, category_id, name, description, " +
-                        "price, discount_price, stock_quantity, is_active) " +
+                        "price, mrp, discount_price, stock_quantity, is_active) " +
                         "VALUES " +
                         "((SELECT NVL(MAX(product_id),0)+1 FROM products), " +
-                        "?, ?, ?, ?, ?, ?, ?, ?)";
+                        "?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection con = JDBCUtil.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -31,9 +31,10 @@ public class ProductDAOImpl implements IProductDAO {
             ps.setString(3, p.getName());
             ps.setString(4, p.getDescription());
             ps.setDouble(5, p.getPrice());
-            ps.setDouble(6, p.getDiscountPrice());
-            ps.setInt(7, p.getStockQuantity());
-            ps.setInt(8, p.isActive() ? 1 : 0);
+            ps.setDouble(6, p.getMrp());
+            ps.setDouble(7, p.getDiscountPrice());
+            ps.setInt(8, p.getStockQuantity());
+            ps.setInt(9, p.isActive() ? 1 : 0);
 
             return ps.executeUpdate() > 0;
 
@@ -43,7 +44,7 @@ public class ProductDAOImpl implements IProductDAO {
         return false;
     }
 
-    // ========== GET BY ID ==========
+    // GET BY ID
     @Override
     public Product getProductById(int productId) {
 
@@ -65,13 +66,13 @@ public class ProductDAOImpl implements IProductDAO {
         return null;
     }
 
-    // ========== UPDATE PRODUCT ==========
+    // UPDATE PRODUCT
     @Override
     public boolean updateProduct(Product product) {
 
         String sql =
                 "UPDATE products " +
-                        "SET name = ?, description = ?, price = ?, discount_price = ?, updated_at = SYSDATE " +
+                        "SET name = ?, description = ?, price = ?, mrp = ?, discount_price = ?, updated_at = SYSDATE " +
                         "WHERE product_id = ?";
 
         try (Connection con = JDBCUtil.getConnection();
@@ -80,8 +81,9 @@ public class ProductDAOImpl implements IProductDAO {
             ps.setString(1, product.getName());
             ps.setString(2, product.getDescription());
             ps.setDouble(3, product.getPrice());
-            ps.setDouble(4, product.getDiscountPrice());
-            ps.setInt(5, product.getProductId());
+            ps.setDouble(4, product.getMrp());        // FIX
+            ps.setDouble(5, product.getDiscountPrice());
+            ps.setInt(6, product.getProductId());
 
             return ps.executeUpdate() > 0;
 
@@ -91,7 +93,7 @@ public class ProductDAOImpl implements IProductDAO {
         return false;
     }
 
-    // ========== DELETE PRODUCT ==========
+    // DELETE PRODUCT
     @Override
     public boolean deleteProduct(int productId) {
 
@@ -109,7 +111,7 @@ public class ProductDAOImpl implements IProductDAO {
         return false;
     }
 
-    // ========== CHECK EXISTS ==========
+    // CHECK EXISTS
     @Override
     public boolean productExists(int productId) {
 
@@ -128,7 +130,7 @@ public class ProductDAOImpl implements IProductDAO {
         return false;
     }
 
-    // ========== VIEW ALL ACTIVE PRODUCTS ==========
+    // VIEW ALL ACTIVE PRODUCTS
     @Override
     public List<Product> getAllProducts() {
 
@@ -149,7 +151,7 @@ public class ProductDAOImpl implements IProductDAO {
         return list;
     }
 
-    // ========== VIEW BY SELLER ==========
+    // VIEW BY SELLER
     @Override
     public List<Product> getProductsBySeller(int sellerId) {
 
@@ -172,7 +174,7 @@ public class ProductDAOImpl implements IProductDAO {
         return list;
     }
 
-    // ========== VIEW BY CATEGORY ==========
+    // VIEW BY CATEGORY
     @Override
     public List<Product> getProductsByCategory(int categoryId) {
 
@@ -195,7 +197,7 @@ public class ProductDAOImpl implements IProductDAO {
         return list;
     }
 
-    // ========== UPDATE STOCK ==========
+    // UPDATE STOCK
     @Override
     public boolean updateStock(int productId, int qty) {
 
@@ -219,7 +221,7 @@ public class ProductDAOImpl implements IProductDAO {
         return false;
     }
 
-    // ========== RESULTSET MAPPER ==========
+    // RESULTSET MAPPER
     private Product map(ResultSet rs) throws Exception {
 
         Product p = new Product();
@@ -229,6 +231,7 @@ public class ProductDAOImpl implements IProductDAO {
         p.setName(rs.getString("name"));
         p.setDescription(rs.getString("description"));
         p.setPrice(rs.getDouble("price"));
+        p.setMrp(rs.getDouble("mrp"));
         p.setDiscountPrice(rs.getDouble("discount_price"));
         p.setStockQuantity(rs.getInt("stock_quantity"));
         p.setActive(rs.getInt("is_active") == 1);

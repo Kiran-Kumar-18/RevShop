@@ -190,3 +190,89 @@ Jan 30, 2026 9:41:53 AM com.revshop.util.LoggerUtil logInfo
 INFO: User logged in: seller@yahoo.com
 Jan 30, 2026 9:43:51 AM com.revshop.util.LoggerUtil logInfo
 INFO: Product added: Mobile
+Jan 30, 2026 10:39:12 AM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: User@yahoo.com
+Jan 30, 2026 10:39:28 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 10:40:43 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 10:41:01 AM com.revshop.util.LoggerUtil logInfo
+INFO: Added product 1 to cart for user 5
+Jan 30, 2026 10:45:16 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 10:49:22 AM com.revshop.util.LoggerUtil logInfo
+INFO: Added product 1 to cart for user 5
+Jan 30, 2026 10:58:02 AM com.revshop.util.LoggerUtil logInfo
+INFO: Added product 1 to cart for user 5
+Jan 30, 2026 10:59:34 AM com.revshop.util.LoggerUtil logInfo
+INFO: Added product 1 to cart for user 5
+Jan 30, 2026 11:10:00 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 11:36:15 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 11:36:54 AM com.revshop.util.LoggerUtil logInfo
+INFO: Added product 4 to cart for user 5
+Jan 30, 2026 11:37:14 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to create order record
+Jan 30, 2026 11:43:17 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to save order item for order 1
+Jan 30, 2026 11:44:20 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to save order item for order 2
+Jan 30, 2026 11:44:29 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to save order item for order 3
+Jan 30, 2026 11:45:15 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to save order item for order 4
+Jan 30, 2026 11:50:31 AM com.revshop.util.LoggerUtil logError
+SEVERE: Failed to save order item for order 5
+Jan 30, 2026 11:53:45 AM com.revshop.util.LoggerUtil logInfo
+INFO: Order placed successfully. Order ID: 6
+Jan 30, 2026 11:55:30 AM com.revshop.util.LoggerUtil logInfo
+INFO: Order failed: Cart is empty for user 5
+Jan 30, 2026 11:56:27 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 11:57:35 AM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: User@yahoo.com
+Jan 30, 2026 12:08:47 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: jitu@gmail.com
+Jan 30, 2026 12:09:14 PM com.revshop.util.LoggerUtil logWarning
+WARNING: Failed login attempt: jitu@gmail.com
+Jan 30, 2026 12:10:55 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: sai@yahoo.com
+Jan 30, 2026 12:12:18 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: some@yahoo.com
+Jan 30, 2026 12:13:07 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: jagan@yahoo.com
+Jan 30, 2026 12:15:06 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: king@yahoo.com
+Jan 30, 2026 12:15:38 PM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in: king@yahoo.com
+Jan 30, 2026 12:16:29 PM com.revshop.util.LoggerUtil logInfo
+INFO: Product added: Lappy
+Jan 30, 2026 1:48:25 PM com.revshop.util.LoggerUtil logInfo
+INFO: ReviewServiceImpl initialized successfully.
+Jan 30, 2026 1:48:26 PM com.revshop.util.LoggerUtil logInfo
+INFO: PaymentDAO initialized successfully
+Jan 30, 2026 1:48:51 PM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in successfully: User@yahoo.com
+Jan 30, 2026 1:49:03 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched all products. Total: 8
+Jan 30, 2026 1:49:32 PM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in successfully: king@yahoo.com
+Jan 30, 2026 1:49:37 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 6, Total: 1
+Jan 30, 2026 1:50:39 PM com.revshop.util.LoggerUtil logInfo
+INFO: Product added: Hard Disk, Seller ID: 6
+Jan 30, 2026 1:50:49 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 6, Total: 2
+Jan 30, 2026 1:57:53 PM com.revshop.util.LoggerUtil logInfo
+INFO: ReviewServiceImpl initialized successfully.
+Jan 30, 2026 1:57:53 PM com.revshop.util.LoggerUtil logInfo
+INFO: PaymentDAO initialized successfully
+Jan 30, 2026 1:58:33 PM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in successfully: king@yahoo.com
+Jan 30, 2026 1:58:37 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 6, Total: 2
+Jan 30, 2026 1:59:30 PM com.revshop.util.LoggerUtil logInfo
+INFO: Product added: EarBuds, Seller ID: 6
+Jan 30, 2026 1:59:37 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 6, Total: 3
