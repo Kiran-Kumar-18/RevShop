@@ -67,6 +67,31 @@ public class ProductServiceImpl implements IProductService {
         }
     }
 
+    @Override
+    public boolean updateProduct(Product product) {
+        try {
+            boolean updated = productDAO.updateProduct(product);
+            if (updated) {
+                LoggerUtil.logInfo(
+                        "Product updated: ID=" + product.getProductId()
+                );
+            } else {
+                LoggerUtil.logWarning(
+                        "Product update failed: ID=" + product.getProductId()
+                );
+            }
+            return updated;
+        } catch (Exception e) {
+            LoggerUtil.logError(
+                    "Error updating product ID: " + product.getProductId(),
+                    e
+            );
+            return false;
+        }
+    }
+
+
+
     // ================= DELETE PRODUCT =================
     @Override
     public boolean deleteProduct(int productId) {

@@ -69,6 +69,51 @@ public class ProductController {
         );
     }
 
+    // ================= UPDATE PRODUCT DETAILS =================
+    public void updateProduct() {
+
+        Product p = new Product();
+
+        System.out.print("Product Id: ");
+        p.setProductId(Integer.parseInt(sc.nextLine()));
+
+        System.out.print("New Name: ");
+        p.setName(sc.nextLine());
+
+        System.out.print("New Description: ");
+        p.setDescription(sc.nextLine());
+
+        System.out.print("New Price: ");
+        p.setPrice(Double.parseDouble(sc.nextLine()));
+
+        System.out.print("New MRP: ");
+        p.setMrp(Double.parseDouble(sc.nextLine()));
+
+        System.out.print("New Discount Price: ");
+        p.setDiscountPrice(Double.parseDouble(sc.nextLine()));
+
+        System.out.println(
+                productService.updateProduct(p)
+                        ? "Product updated successfully"
+                        : "Product update failed"
+        );
+    }
+
+    // ================= DELETE PRODUCT =================
+    public void deleteProduct() {
+
+        System.out.print("Enter Product Id to delete: ");
+        int productId = Integer.parseInt(sc.nextLine());
+
+        System.out.println(
+                productService.deleteProduct(productId)
+                        ? "Product deleted successfully"
+                        : "Failed to delete product"
+        );
+    }
+
+
+
     // ================= VIEW BY SELLER (FIXED) =================
     public void viewBySeller(int sellerId) {
         productService.getProductsBySeller(sellerId)

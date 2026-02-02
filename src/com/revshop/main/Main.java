@@ -197,7 +197,10 @@ public class Main {
                 System.out.println("2. View My Products");
                 System.out.println("3. Update Stock");
                 System.out.println("4. Manage Profile");
-                System.out.println("5. Logout");
+                System.out.println("5. Update Product");
+                System.out.println("6. Delete Product");
+                System.out.println("7. Logout ");
+
                 System.out.print("Enter choice: ");
 
                 int choice;
@@ -222,7 +225,9 @@ public class Main {
                     case 2 -> productController.viewBySeller(s.getSellerId());
                     case 3 -> productController.updateStock();
                     case 4 -> System.out.println("Profile management not implemented yet.");
-                    case 5 -> {
+                    case 5-> productController.updateProduct();   // NEW
+                    case 6 -> productController.deleteProduct();
+                    case 7 -> {
                         currentUser = null;
                         System.out.println("Logged out.");
                     }

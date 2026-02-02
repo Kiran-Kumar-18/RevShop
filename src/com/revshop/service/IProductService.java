@@ -11,6 +11,8 @@ public interface IProductService {
 
     boolean updateProduct(int productId, String name, double price);
 
+    boolean updateProduct(Product product);
+
     boolean deleteProduct(int productId);
 
     boolean updateStock(int productId, int qty);

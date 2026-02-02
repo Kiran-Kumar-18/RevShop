@@ -35,7 +35,7 @@ class FavoriteServiceImplTest {
         daoField.set(favoriteService, mockDao);
     }
 
-    // ✅ Test Add Favorite
+    // Test Add Favorite
     @Test
     void testAddFavorite() {
 
@@ -53,7 +53,7 @@ class FavoriteServiceImplTest {
         verify(mockDao, times(1)).addFavorite(favorite);
     }
 
-    // ✅ Test View Favorites
+    // Test View Favorites
     @Test
     void testViewFavorites() {
 
@@ -76,7 +76,7 @@ class FavoriteServiceImplTest {
         verify(mockDao, times(1)).getFavoritesByUser(10);
     }
 
-    // ✅ Test Remove Favorite
+    // Test Remove Favorite
     @Test
     void testRemoveFavorite() {
 

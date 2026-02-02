@@ -6,7 +6,7 @@ public class Product {
     private int sellerId;
     private int categoryId;
     private String name;
-    private String description;      // ✅ FIXED
+    private String description;
     private double price;
     private double mrp;
     private double discountPrice;
@@ -48,7 +48,7 @@ public class Product {
         this.name = name;
     }
 
-    // ✅ REQUIRED FOR YOUR ERROR
+
     public String getDescription() {
         return description;
     }

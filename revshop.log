@@ -1,0 +1,18 @@
+Feb 02, 2026 8:11:12 PM com.revshop.util.LoggerUtil logInfo
+INFO: ReviewServiceImpl initialized successfully.
+Feb 02, 2026 8:11:12 PM com.revshop.util.LoggerUtil logInfo
+INFO: PaymentDAO initialized successfully
+Feb 02, 2026 8:11:37 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: jitu@yahoo.com
+Feb 02, 2026 8:12:16 PM com.revshop.util.LoggerUtil logInfo
+INFO: User registered successfully: some1@yahoo.com
+Feb 02, 2026 8:12:35 PM com.revshop.util.LoggerUtil logInfo
+INFO: Seller registered successfully: someew, User ID: 13
+Feb 02, 2026 8:13:23 PM com.revshop.util.LoggerUtil logInfo
+INFO: User logged in successfully: some1@yahoo.com
+Feb 02, 2026 8:13:28 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 7, Total: 0
+Feb 02, 2026 8:14:08 PM com.revshop.util.LoggerUtil logInfo
+INFO: Product added: Hard Drive, Seller ID: 7
+Feb 02, 2026 8:14:11 PM com.revshop.util.LoggerUtil logInfo
+INFO: Fetched products by seller ID: 7, Total: 1
